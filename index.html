@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Check-in de Nomes</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    textarea {
+      width: 100%;
+      height: 100px;
+      margin-bottom: 20px;
+      padding: 10px;
+      font-size: 16px;
+    }
+    .nome-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+    .nome-item.checked {
+      color: green;
+    }
+    .check-icon {
+      margin-right: 10px;
+      cursor: pointer;
+      font-size: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Check-in de Nomes</h1>
+  <textarea id="listaNomes" placeholder="Cole sua lista de nomes aqui..."></textarea>
+  <button onclick="exibirNomes()">Exibir Nomes</button>
+
+  <div id="listaCheckin"></div>
+
+  <script>
+    function exibirNomes() {
+      // Limpa a lista atual
+      const listaCheckin = document.getElementById('listaCheckin');
+      listaCheckin.innerHTML = '';
+
+      // Obtém os nomes do textarea
+      const nomes = document.getElementById('listaNomes').value.split('\n');
+
+      // Exibe cada nome na lista
+      nomes.forEach(nome => {
+        if (nome.trim() !== '') {
+          const nomeItem = document.createElement('div');
+          nomeItem.className = 'nome-item';
+
+          // Ícone de check-in
+          const checkIcon = document.createElement('span');
+          checkIcon.className = 'check-icon';
+          checkIcon.innerHTML = '☐'; // Ícone de caixa vazia
+          checkIcon.onclick = () => marcarCheckin(nomeItem, checkIcon);
+
+          // Nome
+          const nomeText = document.createElement('span');
+          nomeText.textContent = nome.trim();
+
+          nomeItem.appendChild(checkIcon);
+          nomeItem.appendChild(nomeText);
+          listaCheckin.appendChild(nomeItem);
+        }
+      });
+    }
+
+    function marcarCheckin(nomeItem, checkIcon) {
+      // Alterna o estado de check-in
+      if (nomeItem.classList.contains('checked')) {
+        nomeItem.classList.remove('checked');
+        checkIcon.innerHTML = '☐'; // Ícone de caixa vazia
+      } else {
+        nomeItem.classList.add('checked');
+        checkIcon.innerHTML = '✔'; // Ícone de check-in
+      }
+    }
+  </script>
+</body>
+</html>
